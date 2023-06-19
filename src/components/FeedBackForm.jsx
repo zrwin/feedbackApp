@@ -14,7 +14,7 @@ function FeedBackForm(){
     const [rating,setRating] = useState(10)
 
     
-    const {addFeedBack, feedbackEdit} = useContext(FeedbackContext)
+    const {addFeedBack, feedbackEdit ,  updateFeedback} = useContext(FeedbackContext)
 
 
     useEffect(()=>{
@@ -22,7 +22,7 @@ function FeedBackForm(){
 
         if(feedbackEdit.edit === true){
             console.log("Hi")
-            setBtnDisabled(true)
+            setBtnDisabled(false)
             setText(feedbackEdit.item.text)
             setRating(feedbackEdit.item.rating)
         }
@@ -56,7 +56,16 @@ function FeedBackForm(){
                 text: text, //can b written as text only for shorthand
                 rating,   // similarly can be written as rating: rating   
             }
+
+
+        if(feedbackEdit.edit  === true){
+            setBtnDisabled(true)
+            updateFeedback(feedbackEdit.item.id , newFeedback)
+        }
+        else{
             addFeedBack(newFeedback)
+            
+        }
         }
     }
 
@@ -69,7 +78,8 @@ function FeedBackForm(){
                 <div className="input-group">
                     <input type="text"
                     onChange={handleTextChange}
-                     placeholder="Write a review"/>
+                     placeholder="Write a review"
+                     value={text}/>
                      <Button type="submit" version={"primary" } isDisabled={btnDisabled} >Submit</Button>
                 </div>
                 {message && <div className="message">{message}</div>}
